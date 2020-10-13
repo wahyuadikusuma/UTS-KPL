@@ -1,0 +1,42 @@
+--------------------------------------------------
+| Website TPPKK Kabupaten Wonogiri - by wahyu |
+--------------------------------------------------
+1. basis data
+2. kebutuhan stakeholder
+3. efek
+4. color harmony
+5. pagination
+6. searching with ajax
+
+referensi : https://ppid.sukoharjokab.go.id
+-----------------------------------
+admin (CRUD) artikel
+-menambah
+-mencari
+-menghapus
+-melihat
+-mengubah
+
+.ganti slider
+.ganti foto struktur
+
+Visitor (CREATE)
+-membuat kritik/saran/aduan
+
+--------------------------------------
+| basis data:                        |
+|------------------------------------|
+| >>artikel                          |
+| -id                                |
+| -judul                             |
+| -author                            |
+| -gambar                            |
+| -isi content                       |
+| -tanggal                           |
+--------------------------------------
+| >>kritik dan saran                 |
+| -nama                              |
+| -alamat email                      |
+| -no.hp                             |
+| -kritik/saran/aduan                |
+--------------------------------------

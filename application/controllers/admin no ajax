@@ -1,0 +1,73 @@
+public function artikel2()
+    {
+        $this->isLogin();
+
+        $username = $this->session->userdata('username');
+        $this->db->select('name, username, email, image');
+        $data = $this->db->get_where('akun', ['username' => $username])->row_array();
+
+        $data['title'] = 'TPPKK Wonogiri - Admin';
+        $data['subtitle'] = 'Artikel';
+
+        if ($this->input->get('submit')) {
+            $data['keyword'] = $this->input->get('keyword');
+            $this->session->set_userdata('keyword', $data['keyword']);
+        } else {
+            $data['keyword'] = $this->session->userdata('keyword');
+        }
+        // config
+        $this->db->like('judul', $data['keyword']);
+        $this->db->or_like('isi_artikel', $data['keyword']);
+        $this->db->from('artikel');
+
+        $config['base_url'] = 'https://localhost/TPPKK-Wonogiri/admin/artikel';
+        $config['total_rows'] = $this->db->count_all_results();
+        $data['total_rows'] = $config['total_rows'];
+        $config['per_page'] = 8;
+
+        //initialize
+        $this->pagination->initialize($config);
+
+        $data['start'] = $this->uri->segment(3);
+        $data['artikel'] = $this->Artikel_model->getArtikel($config['per_page'], $data['start'], $data['keyword']);
+
+        $this->load->view('admin/templates/admin_header', $data);
+        $this->load->view('admin/templates/admin_sidebar');
+        $this->load->view('admin/templates/admin_topbar', $data);
+        $this->load->view('admin/artikel_noajax');
+        $this->load->view('admin/templates/admin_footer');
+    }
+
+       public function pesan()
+    {
+        $this->isLogin();
+
+        $username = $this->session->userdata('username');
+        $this->db->select('name, username, email, image');
+        $data = $this->db->get_where('akun', ['username' => $username])->row_array();
+        //menghapus session search artikel
+        $this->session->set_userdata('keyword',  null);
+
+
+        $data['title'] = 'TPPKK Wonogiri - Admin';
+        $data['subtitle'] = 'Pesan Masyarakat';
+
+        // config pagination
+        $config['base_url'] = 'https://localhost/TPPKK-Wonogiri/admin/pesan';
+        $config['total_rows'] = $this->Pesan_model->countAllPesan();
+        $config['per_page'] = 8;
+
+        //initialize
+        $this->pagination->initialize($config);
+
+        $data['start'] = $this->uri->segment(3);
+        $data['pesan'] = $this->Pesan_model->getPesan($config['per_page'], $data['start']);
+
+        // $data['pesan'] = $this->Pesan_model->tampilkanPesan();
+
+        $this->load->view('admin/templates/admin_header', $data);
+        $this->load->view('admin/templates/admin_sidebar');
+        $this->load->view('admin/templates/admin_topbar', $data);
+        $this->load->view('admin/pesan', $data);
+        $this->load->view('admin/templates/admin_footer');
+    }

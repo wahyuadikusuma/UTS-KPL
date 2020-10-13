@@ -1,0 +1,17 @@
+/* admin css by wahyu adi kusuma */
+
+#wrapper > .navbar-nav > .nav-item:hover{
+    background-color: #3A3B45;
+    /* margin-top: 4px;
+    margin-bottom: 4px; */
+    padding-left: 6px;
+    border-left: 4px solid rgb(255, 0, 0);
+    transition-duration: 400ms;
+}
+
+/* #wrapper .navbar-nav .nav-item.active{
+    background-color: rgb(201, 202, 209);
+    margin-top: 1px;
+    margin-bottom: 1px;
+    border-left: 4px solid #F6C23E;
+} */
