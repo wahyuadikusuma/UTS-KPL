@@ -8,7 +8,6 @@ class Admin extends CI_Controller
         if ($this->session->userdata('admintppkkwonogiri')) {
             redirect('admin/dashboard');
         }
-        $data['title'] = 'TPPKK Wonogiri - Login';
 
         $this->form_validation->set_rules('username', 'Username', 'trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');

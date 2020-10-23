@@ -35,15 +35,15 @@ class Artikel extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
-    public function readArtikel($id)
+    public function readArtikel($id_artikel)
     {
         $data['title'] = 'TPPKK Wonogiri';
 
-        $data['artikel'] = $this->Artikel_model->getArtikelById($id);
+        $data['artikel'] = $this->Artikel_model->getArtikelById($id_artikel);
 
         //increment jumlah view artikel
         $this->db->set('views', 'views+1', false);
-        $this->db->where('id_artikel', $id);
+        $this->db->where('id_artikel', $id_artikel);
         $this->db->update('artikel');
 
         //get artikel popular
