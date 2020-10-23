@@ -13,13 +13,15 @@ class Admin extends CI_Controller
         $this->form_validation->set_rules('username', 'Username', 'trim');
         $this->form_validation->set_rules('password', 'Password', 'required|trim');
 
-        if ($this->form_validation->run() == false) {
-            $this->load->view('admin/templates/admin_header', $data);
-            $this->load->view('admin/login');
-            $this->load->view('admin/templates/login_footer');
-        } else {
-            $this->validasiLogin();
-        }
+        $this->form_validation->run() == false ?  $this->load() : $this->validasiLogin();
+    }
+
+    private function load()
+    {
+        $data['title'] = 'TPPKK Wonogiri - Login';
+        $this->load->view('admin/templates/admin_header', $data); 
+        $this->load->view('admin/login'); 
+        $this->load->view('admin/templates/login_footer');
     }
 
     private function validasiLogin()
