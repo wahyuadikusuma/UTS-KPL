@@ -13,19 +13,19 @@ class Galeri_model extends CI_model
         $this->db->from('kegiatan');
         $this->db->join('foto_kegiatan', 'foto_kegiatan.id_kegiatan=kegiatan.id_kegiatan');
         $this->db->join('pokja', 'pokja.id_pokja=kegiatan.id_pokja');
-        $i = 0;
+        $index = 0;
         foreach ($this->column_search as $item) { // loop column
             if (@$_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
+                if ($index === 0) { // first loop
                     $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
-                if (count($this->column_search) - 1 == $i) //last loop
+                if (count($this->column_search) - 1 == $index) //last loop
                     $this->db->group_end(); //close bracket
             }
-            $i++;
+            $index++;
         }
 
         if (isset($_POST['order'])) { // here order processing
@@ -64,9 +64,9 @@ class Galeri_model extends CI_model
         return $this->db->get('pokja')->result();
     }
 
-    public function getPokjaById($id)
+    public function getPokjaById($id_pokja)
     {
-        $this->db->where('id_pokja', $id);
+        $this->db->where('id_pokja', $id_pokja);
         return $this->db->get('pokja')->row();
     }
 
@@ -75,10 +75,10 @@ class Galeri_model extends CI_model
         $this->db->insert('pokja', $data);
     }
 
-    public function editPokja($id, $nama)
+    public function editPokja($id_pokja, $nama)
     {
         $this->db->set('nama_pokja', $nama);
-        $this->db->where('id_pokja', $id);
+        $this->db->where('id_pokja', $id_pokja);
         return $this->db->update('pokja');
     }
 
@@ -104,22 +104,22 @@ class Galeri_model extends CI_model
     }
 
     //menampilkan di edit kegiatan & di view galeri ketika memilih kegiatan
-    public function getKegiatanById($id)
+    public function getKegiatanById($id_kegiatan)
     {
         $this->db->select('*');
         $this->db->from('kegiatan');
         $this->db->join('pokja', 'pokja.id_pokja=kegiatan.id_pokja');
-        $this->db->where('kegiatan.id_kegiatan', $id);
+        $this->db->where('kegiatan.id_kegiatan', $id_kegiatan);
         return $this->db->get()->row();
     }
 
     //ini untuk menampilkan di view galeri (bukan admin)
-    public function getKegiatanByIdPokja($id)
+    public function getKegiatanByIdPokja($id_kegiatan)
     {
         $this->db->select('*');
         $this->db->from('kegiatan');
         $this->db->join('pokja', 'pokja.id_pokja=kegiatan.id_pokja');
-        $this->db->where('pokja.id_pokja', $id);
+        $this->db->where('pokja.id_pokja', $id_kegiatan);
         return $this->db->get()->result();
     }
 
@@ -128,17 +128,17 @@ class Galeri_model extends CI_model
         $this->db->insert('kegiatan', $data);
     }
 
-    public function editKegiatan($id, $id_pokja, $nama_kegiatan)
+    public function editKegiatan($id_kegiatan, $id_pokja, $nama_kegiatan)
     {
         $this->db->set('id_pokja', $id_pokja);
         $this->db->set('nama_kegiatan', $nama_kegiatan);
-        $this->db->where('id_kegiatan', $id);
+        $this->db->where('id_kegiatan', $id_kegiatan);
         $this->db->update('kegiatan');
     }
 
-    public function deleteKegiatan($id)
+    public function deleteKegiatan($id_kegiatan)
     {
-        $this->db->where('id_kegiatan', $id);
+        $this->db->where('id_kegiatan', $id_kegiatan);
         $this->db->delete('kegiatan');
     }
 
@@ -154,20 +154,20 @@ class Galeri_model extends CI_model
         return $this->db->get()->result();
     }
 
-    public function getFotoKegiatanById($id)
+    public function getFotoKegiatanById($id_kegiatan)
     {
         $this->db->select('*');
         $this->db->from('foto_kegiatan');
-        $this->db->where('id_item', $id);
+        $this->db->where('id_item', $id_kegiatan);
         return $this->db->get()->row();
     }
 
-    public function getFotoKegiatanByIdKegiatan($id)
+    public function getFotoKegiatanByIdKegiatan($id_kegiatan)
     {
         $this->db->select('*');
         $this->db->from('kegiatan');
         $this->db->join('foto_kegiatan', 'foto_kegiatan.id_kegiatan = kegiatan.id_kegiatan');
-        $this->db->where('foto_kegiatan.id_kegiatan', $id);
+        $this->db->where('foto_kegiatan.id_kegiatan', $id_kegiatan);
         return $this->db->get()->result();
     }
 
@@ -183,9 +183,9 @@ class Galeri_model extends CI_model
         $this->db->update('foto_kegiatan');
     }
 
-    public function deleteFotoKegiatan($id)
+    public function deleteFotoKegiatan($id_kegiatan)
     {
-        $this->db->where('id_item', $id);
+        $this->db->where('id_item', $id_kegiatan);
         $this->db->delete('foto_kegiatan');
     }
 
@@ -197,17 +197,17 @@ class Galeri_model extends CI_model
         return $this->db->get('galeri')->result();
     }
 
-    public function getGaleriById($id)
+    public function getGaleriById($idgaleri)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', $idgaleri);
         return $this->db->get('galeri')->row();
     }
 
-    public function editGaleri($id, $teks1, $teks2)
+    public function editGaleri($idgaleri, $teks1, $teks2)
     {
         $this->db->set('teks1', $teks1);
         $this->db->set('teks2', $teks2);
-        $this->db->where('id', $id);
+        $this->db->where('id', $idgaleri);
         return $this->db->update('galeri');
     }
 
@@ -221,9 +221,9 @@ class Galeri_model extends CI_model
         $this->db->insert('galeri', $data);
     }
 
-    public function deleteGaleri($id)
+    public function deleteGaleri($idgaleri)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', $idgaleri);
         return $this->db->delete('galeri');
     }
 

@@ -12,19 +12,19 @@ class Kegiatan_model extends CI_model
         $this->db->select('*');
         $this->db->from('kegiatan');
         $this->db->join('pokja', 'pokja.id_pokja=kegiatan.id_pokja');
-        $i = 0;
+        $index = 0;
         foreach ($this->column_search as $item) { // loop column
             if (@$_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
+                if ($index === 0) { // first loop
                     $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
-                if (count($this->column_search) - 1 == $i) //last loop
+                if (count($this->column_search) - 1 == $index) //last loop
                     $this->db->group_end(); //close bracket
             }
-            $i++;
+            $index++;
         }
 
         if (isset($_POST['order'])) { // here order processing
