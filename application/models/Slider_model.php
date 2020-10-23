@@ -7,17 +7,17 @@ class Slider_model extends CI_model
         return $this->db->get('slider')->result();
     }
 
-    public function getSliderById($id)
+    public function getSliderById($id_slider)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', $id_slider);
         return $this->db->get('slider')->row();
     }
 
-    public function editSlider($id, $teks1, $teks2)
+    public function editSlider($id_slider, $teks1, $teks2)
     {
         $this->db->set('teks1', $teks1);
         $this->db->set('teks2', $teks2);
-        $this->db->where('id', $id);
+        $this->db->where('id', $id_slider);
         return $this->db->update('slider');
     }
 
@@ -31,9 +31,9 @@ class Slider_model extends CI_model
         $this->db->insert('slider', $data);
     }
 
-    public function deleteSlider($id)
+    public function deleteSlider($id_slider)
     {
-        $this->db->where('id', $id);
+        $this->db->where('id', $id_slider);
         return $this->db->delete('slider');
     }
 

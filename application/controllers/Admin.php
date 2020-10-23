@@ -686,7 +686,7 @@ class Admin extends CI_Controller
     }
 
 
-    public function editPokja($id)
+    public function editPokja($idpokja)
     {
         $this->isLogin();
 
@@ -699,7 +699,7 @@ class Admin extends CI_Controller
         $data['title'] = 'TPPKK Wonogiri - Edit Pokja';
         $data['subtitle'] = 'Pokja';
 
-        $data['pokja'] = $this->Galeri_model->getPokjaById($id);
+        $data['pokja'] = $this->Galeri_model->getPokjaById($idpokja);
 
         $this->form_validation->set_rules('nama_pokja', 'Judul', 'trim');
 
@@ -712,7 +712,7 @@ class Admin extends CI_Controller
         } else {
             $nama_pokja = $this->input->post('nama_pokja');
 
-            $data = $this->Galeri_model->getPokjaById($id);
+            $data = $this->Galeri_model->getPokjaById($idpokja);
 
             $upload_image = $_FILES['logo']['name'];
 
@@ -733,7 +733,7 @@ class Admin extends CI_Controller
                     } else {
                         $error = $this->upload->display_errors();
                         $this->session->set_flashdata('message', '<div class="alert alert-danger pb-1 mb-2" role="alert">' . $error . '</div>');
-                        redirect('admin/editPokja/' . $id);
+                        redirect('admin/editPokja/' . $idpokja);
                     }
                 } else {
                     if ($this->upload->do_upload('logo')) {
@@ -742,29 +742,29 @@ class Admin extends CI_Controller
                     } else {
                         $error = $this->upload->display_errors();
                         $this->session->set_flashdata('message', '<div class="alert alert-danger pb-1 mb-2" role="alert">' . $error . '</div>');
-                        redirect('admin/editPokja/' . $id);
+                        redirect('admin/editPokja/' . $idpokja);
                     }
                 }
             }
-            $this->Galeri_model->editPokja($id, $nama_pokja);
+            $this->Galeri_model->editPokja($idpokja, $nama_pokja);
             $this->session->set_flashdata('pokja', 'Diperbarui');
             redirect('admin/pokja');
         }
     }
 
-    public function deletePokja($id)
+    public function deletePokja($idpokja)
     {
         $this->isLogin();
 
-        $data = $this->Galeri_model->getPokjaById($id);
+        $data = $this->Galeri_model->getPokjaById($idpokja);
         $nama_gambar = './assets/img/admin/pokja/' . $data->logo;
         if (is_readable($nama_gambar)) {
-            $this->Galeri_model->deletePokja($id);
+            $this->Galeri_model->deletePokja($idpokja);
             unlink($nama_gambar);
             $this->session->set_flashdata('pokja', 'Dihapus');
             redirect('admin/pokja');
         }
-        $this->Galeri_model->deletePokja($id);
+        $this->Galeri_model->deletePokja($idpokja);
         $this->session->set_flashdata('pokja', 'Dihapus');
         $this->session->set_flashdata('message', '<div class="alert alert-primary col-lg-4" role="alert">Pokja berhasil dihapus.</div>');
         redirect('admin/pokja');
@@ -852,7 +852,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function editKegiatan($id)
+    public function editKegiatan($idkegiatan)
     {
         $this->isLogin();
 
@@ -868,7 +868,7 @@ class Admin extends CI_Controller
         // untuk mendapat data pokja di list item
         $data['pokja'] = $this->Galeri_model->getPokja();
         // mendapat data sekarang
-        $data['kegiatan'] = $this->Galeri_model->getKegiatanById($id);
+        $data['kegiatan'] = $this->Galeri_model->getKegiatanById($idkegiatan);
 
         $this->form_validation->set_rules('nama_kegiatan', 'Judul', 'trim');
         $this->form_validation->set_rules('id_pokja', 'Pokja', 'required');
@@ -882,9 +882,9 @@ class Admin extends CI_Controller
             $this->load->view('admin/templates/admin_footer');
         } else {
             $nama_kegiatan = $this->input->post('nama_kegiatan');
-            $id_pokja = $this->input->post('id_pokja');
+            $idpokja = $this->input->post('id_pokja');
 
-            $data = $this->Galeri_model->getKegiatanById($id);
+            $data = $this->Galeri_model->getKegiatanById($idkegiatan);
 
             $upload_image = $_FILES['gambar']['name'];
 
@@ -904,7 +904,7 @@ class Admin extends CI_Controller
                     } else {
                         $error = $this->upload->display_errors();
                         $this->session->set_flashdata('message', '<div class="alert alert-danger pb-1 mb-2" role="alert">' . $error . '</div>');
-                        redirect('admin/editKegiatan/' . $id);
+                        redirect('admin/editKegiatan/' . $idkegiatan);
                     }
                 } else {
                     if ($this->upload->do_upload('gambar')) {
@@ -917,25 +917,25 @@ class Admin extends CI_Controller
                     }
                 }
             }
-            $this->Galeri_model->editKegiatan($id, $id_pokja, $nama_kegiatan);
+            $this->Galeri_model->editKegiatan($idkegiatan, $idpokja, $nama_kegiatan);
             $this->session->set_flashdata('kegiatan', 'Diubah');
             redirect('admin/kegiatan');
         }
     }
 
-    public function deleteKegiatan($id)
+    public function deleteKegiatan($idkegiatan)
     {
         $this->isLogin();
 
-        $data = $this->Galeri_model->getKegiatanById($id);
+        $data = $this->Galeri_model->getKegiatanById($idkegiatan);
         $nama_gambar = './assets/img/admin/kegiatan/' . $data->gambar;
         if (is_readable($nama_gambar)) {
-            $this->Galeri_model->deleteKegiatan($id);
+            $this->Galeri_model->deleteKegiatan($idkegiatan);
             unlink($nama_gambar);
             $this->session->set_flashdata('kegiatan', 'Dihapus');
             redirect('admin/kegiatan');
         }
-        $this->Galeri_model->deleteKegiatan($id);
+        $this->Galeri_model->deleteKegiatan($idkegiatan);
         $this->session->set_flashdata('kegiatan', 'Dihapus');
         $this->session->set_flashdata('message', '<div class="alert alert-primary col-lg-4" role="alert">Kegiatan berhasil dihapus.</div>');
         redirect('admin/kegiatan');
@@ -1020,7 +1020,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function editFotoKegiatan($id)
+    public function editFotoKegiatan($idfotokegiatan)
     {
         $this->isLogin();
 
@@ -1034,7 +1034,7 @@ class Admin extends CI_Controller
         $data['subtitle'] = 'Foto Kegiatan';
 
         $data['kegiatan'] = $this->Galeri_model->getKegiatan();
-        $data['foto'] = $this->Galeri_model->getFotoKegiatanById($id);
+        $data['foto'] = $this->Galeri_model->getFotoKegiatanById($idfotokegiatan);
         // echo var_dump($data['foto']);
         // die;
         // print_r($data);
@@ -1051,7 +1051,7 @@ class Admin extends CI_Controller
             $id_kegiatan = $this->input->post('id_kegiatan');
             // $tanggal = time();
 
-            $data = $this->Galeri_model->getFotoKegiatanById($id);
+            $data = $this->Galeri_model->getFotoKegiatanById($idfotokegiatan);
 
             $upload_image = $_FILES['foto']['name'];
 
@@ -1071,7 +1071,7 @@ class Admin extends CI_Controller
                     } else {
                         $error = $this->upload->display_errors();
                         $this->session->set_flashdata('message', '<div class="alert alert-danger pb-1 mb-2" role="alert">' . $error . '</div>');
-                        redirect('admin/editFotoKegiatan/' . $id);
+                        redirect('admin/editFotoKegiatan/' . $idfotokegiatan);
                     }
                 } else {
                     if ($this->upload->do_upload('foto')) {
@@ -1080,11 +1080,11 @@ class Admin extends CI_Controller
                     } else {
                         $error = $this->upload->display_errors();
                         $this->session->set_flashdata('message', '<div class="alert alert-danger pb-1 mb-2" role="alert">' . $error . '</div>');
-                        redirect('admin/editFotoKegiatan/' . $id);
+                        redirect('admin/editFotoKegiatan/' . $idfotokegiatan);
                     }
                 }
             }
-            $this->Galeri_model->editFotoKegiatan($id, $id_kegiatan);
+            $this->Galeri_model->editFotoKegiatan($idfotokegiatan, $id_kegiatan);
             if ($this->db->affected_rows() > 0) {
                 $this->session->set_flashdata('foto_kegiatan', 'Diubah');
             } else {
@@ -1094,28 +1094,28 @@ class Admin extends CI_Controller
         }
     }
 
-    public function deleteFotoKegiatan($id)
+    public function deleteFotoKegiatan($idfotokegiatan)
     {
         $this->isLogin();
 
-        $data = $this->Galeri_model->getFotoKegiatanById($id);
+        $data = $this->Galeri_model->getFotoKegiatanById($idfotokegiatan);
         $nama_gambar = './assets/img/admin/fotokegiatan/' . $data->foto;
         if (is_readable($nama_gambar)) {
-            $this->Galeri_model->deleteFotoKegiatan($id);
+            $this->Galeri_model->deleteFotoKegiatan($idfotokegiatan);
             unlink($nama_gambar);
             $this->session->set_flashdata('foto_kegiatan', 'Dihapus');
             redirect('admin/foto_kegiatan');
         }
-        $this->Galeri_model->deleteFotoKegiatan($id);
+        $this->Galeri_model->deleteFotoKegiatan($idfotokegiatan);
         $this->session->set_flashdata('foto_kegiatan', 'Dihapus');
         $this->session->set_flashdata('message', '<div class="alert alert-primary col-lg-4" role="alert">Foto Kegiatan berhasil dihapus.</div>');
         redirect('admin/foto_kegiatan');
     }
 
-    public function downloadFotoKegiatan($id)
+    public function downloadFotoKegiatan($idfotokegiatan)
     {
         $this->load->helper('download');
-        $fileinfo = $this->Galeri_model->getFotoKegiatanById($id);
+        $fileinfo = $this->Galeri_model->getFotoKegiatanById($idfotokegiatan);
         $file = 'assets/img/admin/fotokegiatan/' . $fileinfo->foto;
         force_download($file, NULL);
     }
@@ -1198,7 +1198,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function editMateri($id)
+    public function editMateri($idmateri)
     {
         $this->isLogin();
 
@@ -1210,7 +1210,7 @@ class Admin extends CI_Controller
 
         $data['title'] = 'TPPKK Wonogiri - Edit Foto Kegiatan';
         $data['subtitle'] = 'Materi';
-        $data['file'] = $this->Materi_model->getMateriById($id);
+        $data['file'] = $this->Materi_model->getMateriById($idmateri);
 
         $this->form_validation->set_rules('judul', 'Judul', 'trim');
         // $this->form_validation->set_rules('judul', 'Judul', 'trim');
@@ -1233,7 +1233,7 @@ class Admin extends CI_Controller
             $config['upload_path'] = './assets/file/materi/';
 
             $this->load->library('upload', $config);
-            $data = $this->Materi_model->getMateriById($id);
+            $data = $this->Materi_model->getMateriById($idmateri);
             if ($upload_file) {
                 $nama_file = './assets/file/materi/' . $data->nama_file;
                 if (is_readable($nama_file)) {
@@ -1245,7 +1245,7 @@ class Admin extends CI_Controller
                     } else {
                         $error = $this->upload->display_errors();
                         $this->session->set_flashdata('message', '<div class="alert alert-danger pb-1 mb-2" role="alert">' . $error . '</div>');
-                        redirect('admin/editMateri/' . $id);
+                        redirect('admin/editMateri/' . $idmateri);
                     }
                 } else {
                     if ($this->upload->do_upload('file')) {
@@ -1254,25 +1254,25 @@ class Admin extends CI_Controller
                     } else {
                         $error = $this->upload->display_errors();
                         $this->session->set_flashdata('message', '<div class="alert alert-danger pb-1 mb-2" role="alert">' . $error . '</div>');
-                        redirect('admin/editMateri/' . $id);
+                        redirect('admin/editMateri/' . $idmateri);
                     }
                 }
             }
             $this->db->set('judul', $judul);
-            $this->db->where('id_materi', $id);
+            $this->db->where('id_materi', $idmateri);
             $this->db->update('materi');
             $this->session->set_flashdata('materi', 'Diubah');
             redirect('admin/materi');
         }
     }
 
-    public function deleteMateri($id)
+    public function deleteMateri($idmateri)
     {
-        $data = $this->Materi_model->getMateriById($id);
+        $data = $this->Materi_model->getMateriById($idmateri);
         $nama_file = './assets/file/materi/' . $data->nama_file;
 
         if (is_readable($nama_file)) {
-            $this->Materi_model->deleteMateri($id);
+            $this->Materi_model->deleteMateri($idmateri);
             // var_dump($nama_file);
             // die;
 
@@ -1280,7 +1280,7 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('materi', 'Dihapus');
             redirect('admin/materi');
         }
-        $this->Materi_model->deleteMateri($id);
+        $this->Materi_model->deleteMateri($idmateri);
         $this->session->set_flashdata('materi', 'Dihapus');
         redirect('admin/materi');
     }
