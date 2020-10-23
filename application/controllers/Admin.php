@@ -535,7 +535,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function editSlider($id)
+    public function editSlider($id_slider)
     {
         $this->isLogin();
 
@@ -546,7 +546,7 @@ class Admin extends CI_Controller
         $data['title'] = 'TPPKK Wonogiri - Edit Slider';
         $data['subtitle'] = 'Slider';
 
-        $data['slider'] = $this->Slider_model->getSliderById($id);
+        $data['slider'] = $this->Slider_model->getSliderById($id_slider);
 
         $this->form_validation->set_rules('teks1', 'Judul', 'trim');
         $this->form_validation->set_rules('teks2', 'Judul', 'trim');
@@ -561,7 +561,7 @@ class Admin extends CI_Controller
             $teks1 = $this->input->post('teks1');
             $teks2 = $this->input->post('teks2');
 
-            $data = $this->Slider_model->getSliderById($id);
+            $data = $this->Slider_model->getSliderById($id_slider);
 
             $upload_image = $_FILES['gambar']['name'];
 
@@ -600,7 +600,7 @@ class Admin extends CI_Controller
                     }
                 }
             }
-            $this->Slider_model->editSlider($id, $teks1, $teks2);
+            $this->Slider_model->editSlider($id_slider, $teks1, $teks2);
             $this->session->set_flashdata('slider', 'Diperbarui');
             redirect('admin/slider');
         }
