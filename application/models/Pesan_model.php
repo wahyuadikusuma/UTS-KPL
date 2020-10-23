@@ -33,6 +33,7 @@ class Pesan_model extends CI_model
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
+
     public function get_datatables()
     {
         $this->_get_datatables_query();
@@ -41,6 +42,7 @@ class Pesan_model extends CI_model
         $query = $this->db->get();
         return $query->result();
     }
+    
     public function count_filtered()
     {
         $this->_get_datatables_query();

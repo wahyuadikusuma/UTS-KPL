@@ -12,15 +12,15 @@ class Materi extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
-    public function downloadMateri($id)
+    public function downloadMateri($id_materi)
     {
         $this->load->helper('download');
-        $fileinfo = $this->Materi_model->getMateriById($id);
+        $fileinfo = $this->Materi_model->getMateriById($id_materi);
         // var_dump($fileinfo);
         // die;
         if ($fileinfo) {
             $this->db->set('jumlah_unduh', 'jumlah_unduh+1', false);
-            $this->db->where('id_materi', $id);
+            $this->db->where('id_materi', $id_materi);
             $this->db->update('materi');
             $file = 'assets/file/materi/' . $fileinfo->nama_file;
             force_download($file, NULL);

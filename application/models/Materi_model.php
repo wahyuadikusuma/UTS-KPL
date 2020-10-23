@@ -54,14 +54,14 @@ class Materi_model extends CI_model
     }
     // end datatables
 
-    public function getMateriById($id)
+    public function getMateriById($id_materi)
     {
-        return $this->db->get_where('materi', ['id_materi' => $id])->row();
+        return $this->db->get_where('materi', ['id_materi' => $id_materi])->row();
     }
 
-    public function deleteMateri($id)
+    public function deleteMateri($id_materi)
     {
-        $this->db->where('id_materi', $id);
+        $this->db->where('id_materi', $id_materi);
         $this->db->delete('materi');
     }
 }

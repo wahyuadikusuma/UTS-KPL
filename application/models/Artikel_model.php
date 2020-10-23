@@ -13,19 +13,19 @@ class Artikel_model extends CI_model
     {
         $this->db->select('*');
         $this->db->from('artikel');
-        $i = 0;
+        $index = 0;
         foreach ($this->column_search as $item) { // loop column
             if (@$_POST['search']['value']) { // if datatable send POST for search
-                if ($i === 0) { // first loop
+                if ($index === 0) { // first loop
                     $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
                     $this->db->like($item, $_POST['search']['value']);
                 } else {
                     $this->db->or_like($item, $_POST['search']['value']);
                 }
-                if (count($this->column_search) - 1 == $i) //last loop
+                if (count($this->column_search) - 1 == $index) //last loop
                     $this->db->group_end(); //close bracket
             }
-            $i++;
+            $index++;
         }
 
         if (isset($_POST['order'])) { // here order processing
@@ -114,17 +114,17 @@ class Artikel_model extends CI_model
         $this->db->insert('artikel', $data);
     }
 
-    public function editArtikel($id, $judul, $isi_artikel)
+    public function editArtikel($id_artikel, $judul, $isi_artikel)
     {
         $this->db->set('judul', $judul);
         $this->db->set('isi_artikel', $isi_artikel);
-        $this->db->where('id_artikel', $id);
+        $this->db->where('id_artikel', $id_artikel);
         return $this->db->update('artikel');
     }
-    public function getGambarLama($id)
+    public function getGambarLama($id_gambar)
     {
         $this->db->select('gambar');
-        $this->db->where('id_artikel', $id);
+        $this->db->where('id_artikel', $id_gambar);
         return $this->db->get('artikel')->result();
     }
     public function deleteArtikel($id_artikel)
